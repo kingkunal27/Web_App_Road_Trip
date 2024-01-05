@@ -1,0 +1,39 @@
+-----------------------------------------
+|      App Routebook Website            |
+-----------------------------------------
+|  [ Home ] [ Routes ] [ About ]        |
+-----------------------------------------
+|                                       |
+|  Welcome to the Routebook App!         |
+|                                       |
+|  [ Create a Route ]                   |
+|                                       |
+|  [ Route List ]                       |
+|  -----------------------------------  |
+|  | Route Name     | Distance       |  |
+|  |-----------------|----------------|  |
+|  | Hiking Adventure| 10.5 km        |  |
+|  |-----------------|----------------|  |
+|  | Bike Tour       | 25.0 km        |  |
+|  |-----------------|----------------|  |
+|  | ...             | ...            |  |
+|  -----------------------------------  |
+|                                       |
+|  [ Route Details ]                    |
+|  -----------------------------------  |
+|  | Route Name: Hiking Adventure      |  |
+|  | Distance: 10.5 km                 |  |
+|  | Start: Mountain Base Camp         |  |
+|  | End: Summit                        |  |
+|  | Waypoints:                        |  |
+|  | - Waypoint 1: Scenic Overlook     |  |
+|  | - Waypoint 2: Forest Trail        |  |
+|  | ...                               |  |
+|  | Comments:                         |  |
+|  | - "Amazing views!"                |  |
+|  | - "Challenging but rewarding."    |  |
+|  -----------------------------------  |
+|                                       |
+|  [ Create Waypoint ]                  |
+|                                       |
+-----------------------------------------

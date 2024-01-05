@@ -1,0 +1,192 @@
+mysql> CREATE DATABASE road_trip_web_app;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| employee           |
+| imdb               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| prac1              |
+| road_trip_web_app  |
+| student            |
+| sys                |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> USE road_trip_web_app;
+Database changed
+
+mysql> CREATE TABLE User(user_id INT AUTO_INCREMENT Primary Key, username VARCHAR(255) Not Null, email VARCHAR(255) Not Null, password VARCHAR(255) Not Null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE RoadTrip(road_trip_id INT AUTO_INCREMENT Primary Key, title VARCHAR(255) Not Null, description TEXT, start_date DATE, user_id INT, Foreign Key(user_id) References User(user_id));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE WayPoint(waypoint_id INT AUTO_INCREMENT Primary Key, name VARCHAR(255) Not Null, description TEXT, latitude DECIMAL(10, 6), longitude DECIMAL (10, 6),order_in_trip INT,road_trip_id INT, Foreign Key(road_trip_id) References RoadTrip(road_trip_id));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE UserRoadTrip(user_id INT, road_trip_id INT, Primary Key(user_id, road_trip_id), Foreign Key(user_id) References User(user_id), Foreign Key(road_trip_id) References RoadTrip(road_trip_id));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE Comments(comment_id INT AUTO_INCREMENT Primary Key, text TEXT Not Null, user_id INT, road_trip_id INT, timestamp TIMESTAMP, Foreign Key(user_id) References User(user_id), Foreign Key(road_trip_id) References RoadTrip(road_trip_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE Likes(like_id INT AUTO_INCREMENT Primary Key, user_id INT, road_trip_id INT, timestamp TIMESTAMP, Foreign Key(user_id) References User(user_id), Foreign Key(road_trip_id) References RoadTrip(road_trip_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE Media(media_id INT AUTO_INCREMENT Primary Key, file_name VARCHAR(255) Not Null, file_path VARCHAR(255) Not Null, description TEXT, road_trip_id INT, waypoint_id INT, Foreign Key(road_trip_id) References RoadTrip(road_trip_id), Foreign Key(waypoint_id) References WayPoint(waypoint_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE Categories(category_id INT AUTO_INCREMENT Primary Key, name VARCHAR(255) Not Null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE Tags(tag_id INT AUTO_INCREMENT Primary Key, name VARCHAR(255) Not Null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE RoadTripCategories(road_trip_id INT, category_id INT, Primary Key(road_trip_id, category_id), Foreign Key(road_trip_id) References RoadTrip(road_trip_id), Foreign Key(category_id) References Categories(category_id));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE WayPointTags(waypoint_id INT, tag_id INT, Primary Key(waypoint_id, tag_id), Foreign Key(waypoint_id) References WayPoint(waypoint_id), Foreign Key(tag_id) References Tags(tag_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW TABLES;
++-----------------------------+
+| Tables_in_road_trip_web_app |
++-----------------------------+
+| categories                  |
+| comments                    |
+| likes                       |
+| media                       |
+| roadtrip                    |
+| roadtripcategories          |
+| tags                        |
+| user                        |
+| userroadtrip                |
+| waypoint                    |
+| waypointtags                |
++-----------------------------+
+11 rows in set (0.00 sec)
+
+
+mysql> DESC categories;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| category_id | int          | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(255) | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> DESC comments;
++--------------+-----------+------+-----+---------+----------------+
+| Field        | Type      | Null | Key | Default | Extra          |
++--------------+-----------+------+-----+---------+----------------+
+| comment_id   | int       | NO   | PRI | NULL    | auto_increment |
+| text         | text      | NO   |     | NULL    |                |
+| user_id      | int       | YES  | MUL | NULL    |                |
+| road_trip_id | int       | YES  | MUL | NULL    |                |
+| timestamp    | timestamp | YES  |     | NULL    |                |
++--------------+-----------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> DESC likes;
++--------------+-----------+------+-----+---------+----------------+
+| Field        | Type      | Null | Key | Default | Extra          |
++--------------+-----------+------+-----+---------+----------------+
+| like_id      | int       | NO   | PRI | NULL    | auto_increment |
+| user_id      | int       | YES  | MUL | NULL    |                |
+| road_trip_id | int       | YES  | MUL | NULL    |                |
+| timestamp    | timestamp | YES  |     | NULL    |                |
++--------------+-----------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> DESC media;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| media_id     | int          | NO   | PRI | NULL    | auto_increment |
+| file_name    | varchar(255) | NO   |     | NULL    |                |
+| file_path    | varchar(255) | NO   |     | NULL    |                |
+| description  | text         | YES  |     | NULL    |                |
+| road_trip_id | int          | YES  | MUL | NULL    |                |
+| waypoint_id  | int          | YES  | MUL | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> DESC roadtrip;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| road_trip_id | int          | NO   | PRI | NULL    | auto_increment |
+| title        | varchar(255) | NO   |     | NULL    |                |
+| description  | text         | YES  |     | NULL    |                |
+| start_date   | date         | YES  |     | NULL    |                |
+| user_id      | int          | YES  | MUL | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> DESC roadtripcategories;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| road_trip_id | int  | NO   | PRI | NULL    |       |
+| category_id  | int  | NO   | PRI | NULL    |       |
++--------------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> DESC tags;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| tag_id | int          | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(255) | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> DESC user;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| user_id  | int          | NO   | PRI | NULL    | auto_increment |
+| username | varchar(255) | NO   |     | NULL    |                |
+| email    | varchar(255) | NO   |     | NULL    |                |
+| password | varchar(255) | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> DESC userroadtrip;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| user_id      | int  | NO   | PRI | NULL    |       |
+| road_trip_id | int  | NO   | PRI | NULL    |       |
++--------------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> DESC waypoint;
++---------------+---------------+------+-----+---------+----------------+
+| Field         | Type          | Null | Key | Default | Extra          |
++---------------+---------------+------+-----+---------+----------------+
+| waypoint_id   | int           | NO   | PRI | NULL    | auto_increment |
+| name          | varchar(255)  | NO   |     | NULL    |                |
+| description   | text          | YES  |     | NULL    |                |
+| latitude      | decimal(10,6) | YES  |     | NULL    |                |
+| longitude     | decimal(10,6) | YES  |     | NULL    |                |
+| order_in_trip | int           | YES  |     | NULL    |                |
+| road_trip_id  | int           | YES  | MUL | NULL    |                |
++---------------+---------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> DESC waypointtags;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| waypoint_id | int  | NO   | PRI | NULL    |       |
+| tag_id      | int  | NO   | PRI | NULL    |       |
++-------------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
